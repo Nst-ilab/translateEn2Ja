@@ -1,10 +1,16 @@
 # coding: UTF-8
 import boto3
 import urllib.request
+import logging
 import xml.etree.ElementTree as ET
 
 #Region指定しないと、デフォルトのUSリージョンが使われる
 client_lambda = boto3.client('lambda', region_name='ap-northeast-1')
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+logger.info('Loading function')
 
 def lambda_handler(event, context):
 
@@ -12,6 +18,9 @@ def lambda_handler(event, context):
     line_text = event["lineMessage"]["events"][0]["message"]["text"]
     first_content = event["analysedMessage"]["tokens"][0]["text"]["content"]
     language = event["analysedMessage"]["language"]
+    
+    logger.info("line_text=%s:first_content=%s:language=%s",line_text,first_content,language)
+
     if line_text == first_content and language == "en":
         search_word = line_text
     else:
@@ -20,6 +29,8 @@ def lambda_handler(event, context):
     # 検索
     item_id = get_item_id(search_word)
     translated_text = get_translated_text(item_id)
+
+    logger.info("translated_text=%s",translated_text)
 
     #取得した翻訳結果を返す
     if translated_text is None:
