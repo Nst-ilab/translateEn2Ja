@@ -20,13 +20,12 @@ def lambda_handler(event, context):
     # 検索
     item_id = get_item_id(search_word)
     translated_text = get_translated_text(item_id)
-    res_translated_text = split_translated_text(translated_text, '\t')
 
     #取得した翻訳結果を返す
-    if res_translated_text is None:
+    if translated_text is None:
         return None
     else:
-        return { "message" : res_translated_text }
+        return { "message" : translated_text }
 
 # 翻訳サービスが返すxmlから結果を抽出する
 def get_xml_element_text(url, tag):
@@ -55,7 +54,3 @@ def get_translated_text(item_id):
     end = '&Loc=&Prof=XHTML'
     url = head + item_id + end
     return get_xml_element_text(url, 'Body/div/div')
-
-# 翻訳テキストの整形
-def split_translated_text(translated_text, split_word):
-    return translated_text.split(split_word)
