@@ -1,20 +1,9 @@
 # translateEn2Ja
 
+## 何をするの？
 
-    data={}
-    data['Dic'] = 'EJDict'
-    data['Word'] = searchWord
-    data['Scope'] = 'HEADWORD'
-    data['Match'] = 'EXACT'
-    data['Merge'] = 'OR'
-    data['Prof'] = 'XHTML'
-    data['PageSize'] = '10'
-    data['PageIndex'] = '0'
-    url_values = parse.urlencode(data)
-    url = 'http://public.dejizo.jp/NetDicV09.asmx/SearchDicItemLite'
-    full_url = url + '?' + url_values
-    data = request.urlopen(full_url)
+英単語の意味を日本語で答えてくれます。
 
-    tree = ET.parse(data)
-    root = tree.getroot()
-    element = root.find()
+## いつ動くの？
+
+英語１単語のみのメッセージを投稿したとき。
